@@ -18,13 +18,15 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        ListAdapter.FabHideCallback {
 
     @BindView(R.id.rv_todo)
     RecyclerView listOfTODOs;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     private ListAdapter listAdapter;
-    private final static int NUM_OF_ITEMS = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,19 +35,18 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-
         ButterKnife.bind(this);
-
         initializeRecycleView();
         }
 
     private void initializeRecycleView() {
         ArrayList<ParentObject> list = generateItems();
         listAdapter = new ListAdapter(this, list, list.size());
+        listAdapter.registerCallback(this);
         listAdapter.setCustomParentAnimationViewId(R.id.iv_list_item);
         listAdapter.setParentClickableViewAnimationDefaultDuration();
         listAdapter.setParentAndIconExpandOnClick(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listOfTODOs.setLayoutManager(layoutManager);
         listOfTODOs.setHasFixedSize(true);
         listOfTODOs.setAdapter(listAdapter);
@@ -74,5 +75,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void hideFAB(boolean needToHide) {
+        if(needToHide) fab.show();
+        else           fab.hide();
     }
 }

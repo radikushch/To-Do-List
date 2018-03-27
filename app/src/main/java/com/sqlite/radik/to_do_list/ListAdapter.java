@@ -14,6 +14,8 @@ import com.bignerdranch.expandablerecyclerview.ViewHolder.ParentViewHolder;
 
 import java.util.List;
 
+import javax.security.auth.callback.Callback;
+
 /**
  * Created by Radik on 27.03.2018.
  */
@@ -21,10 +23,23 @@ import java.util.List;
 public class ListAdapter extends
         ExpandableRecyclerAdapter<ListAdapter.ListParentViewHolder, ListAdapter.ListChildViewHolder> {
     int numOfItems;
+    private FabHideCallback callback;
+    private ListItemClickListener mItemClickListener;
+
+    public interface FabHideCallback {
+        void hideFAB(boolean isHidden);
+    }
+    public interface ListItemClickListener {
+        void onItemClick(int position);
+    }
 
     public ListAdapter(Context context, List<ParentObject> parentItemList, int numOfItems) {
         super(context, parentItemList);
         this.numOfItems = numOfItems;
+    }
+
+    public void registerCallback(FabHideCallback callback){
+        this.callback = callback;
     }
 
     @Override
@@ -44,6 +59,9 @@ public class ListAdapter extends
     @Override
     public void onBindParentViewHolder(ListParentViewHolder listParentViewHolder, int i, Object o) {
         listParentViewHolder.bind(i, o);
+        if(i == numOfItems - 1){
+            callback.hideFAB(false);
+        } else callback.hideFAB(true);
     }
 
     @Override
@@ -69,19 +87,16 @@ public class ListAdapter extends
             listCaption.setText(parentItem.getCaption());
             switch(parentItem.getPriority()){
                 case 1:
-                    priority.setBackgroundResource(R.drawable.round_view_red);
-                    break;
+                    priority.setBackgroundResource(R.drawable.round_view_red); break;
                 case 2:
-                    priority.setBackgroundResource(R.drawable.round_view_yellow);
-                    break;
+                    priority.setBackgroundResource(R.drawable.round_view_yellow); break;
                 case 3:
-                    priority.setBackgroundResource(R.drawable.round_view_green);
-                    break;
+                    priority.setBackgroundResource(R.drawable.round_view_green); break;
                 default:
-                    priority.setBackgroundResource(R.drawable.round_view_green);
-                    break;
+                    priority.setBackgroundResource(R.drawable.round_view_green); break;
             }
         }
+
     }
 
     class ListChildViewHolder extends ChildViewHolder {
