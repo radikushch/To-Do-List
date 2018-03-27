@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <View
+        android:id="@+id/iv_priority_list_item"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round_view_green"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/iv_priority_list_item"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_priority_list_item"
+        app:layout_constraintTop_toTopOf="@+id/iv_priority_list_item"
+        android:fontFamily="monospace"
+        tools:text="Some definition"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp" />
+
+    <ImageView
+        android:id="@+id/iv_list_item"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_list_item"
+        app:layout_constraintBottom_toBottomOf="@id/tv_list_item"
+        app:srcCompat="@android:drawable/arrow_down_float"
+        android:layout_marginRight="8dp" />
+
+
+
+</android.support.constraint.ConstraintLayout>
