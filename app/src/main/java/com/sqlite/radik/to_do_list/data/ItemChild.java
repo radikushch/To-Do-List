@@ -6,21 +6,21 @@ package com.sqlite.radik.to_do_list;
 
 public class ItemChild {
 
-    private String mDefinition;
+    private String _mDefinition;
 
     public ItemChild() {
 
     }
 
     public ItemChild(String mDefinition) {
-        this.mDefinition = mDefinition;
+        this._mDefinition = mDefinition;
     }
 
     public String getmDefinition() {
-        return mDefinition;
+        return _mDefinition;
     }
 
-    public void setmDefinition(String mDefinition) {
-        this.mDefinition = mDefinition;
+    public void setDefinition(String mDefinition) {
+        this._mDefinition = mDefinition;
     }
 }

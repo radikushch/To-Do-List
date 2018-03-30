@@ -12,29 +12,34 @@ import java.util.List;
 public class ItemParent implements ParentObject {
 
     private List<Object> mChildrenList;
-    private String Caption;
-    private int priority;
+    private String _caption;
+    private int _priority;
+    private int _id;
+
+    public ItemParent() {
+
+    }
 
     public ItemParent(String caption, int priority, ArrayList<Object> childList) {
-        Caption = caption;
-        this.priority = priority;
+        _caption = caption;
+        this._priority = priority;
         this.mChildrenList = childList;
     }
 
     public String getCaption() {
-        return Caption;
+        return _caption;
     }
 
     public int getPriority() {
-        return priority;
+        return _priority;
     }
 
     public void setCaption(String caption) {
-        Caption = caption;
+        _caption = caption;
     }
 
     public void setPriority(int priority) {
-        this.priority = priority;
+        this._priority = priority;
     }
 
 
@@ -47,5 +52,13 @@ public class ItemParent implements ParentObject {
     @Override
     public void setChildObjectList(List<Object> list) {
         mChildrenList = list;
+    }
+
+    public int get_id() {
+        return _id;
+    }
+
+    public void set_id(int _id) {
+        this._id = _id;
     }
 }
