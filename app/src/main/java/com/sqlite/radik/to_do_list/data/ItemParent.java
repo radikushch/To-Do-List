@@ -1,4 +1,4 @@
-package com.sqlite.radik.to_do_list;
+package com.sqlite.radik.to_do_list.data;
 
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
 

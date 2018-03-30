@@ -11,10 +11,10 @@ import com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ChildViewHolder;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ParentViewHolder;
+import com.sqlite.radik.to_do_list.data.ItemChild;
+import com.sqlite.radik.to_do_list.data.ItemParent;
 
 import java.util.List;
-
-import javax.security.auth.callback.Callback;
 
 /**
  * Created by Radik on 27.03.2018.
@@ -23,23 +23,10 @@ import javax.security.auth.callback.Callback;
 public class ListAdapter extends
         ExpandableRecyclerAdapter<ListAdapter.ListParentViewHolder, ListAdapter.ListChildViewHolder> {
     int numOfItems;
-    private FabHideCallback callback;
-    private ListItemClickListener mItemClickListener;
-
-    public interface FabHideCallback {
-        void hideFAB(boolean isHidden);
-    }
-    public interface ListItemClickListener {
-        void onItemClick(int position);
-    }
 
     public ListAdapter(Context context, List<ParentObject> parentItemList, int numOfItems) {
         super(context, parentItemList);
         this.numOfItems = numOfItems;
-    }
-
-    public void registerCallback(FabHideCallback callback){
-        this.callback = callback;
     }
 
     @Override
@@ -59,14 +46,16 @@ public class ListAdapter extends
     @Override
     public void onBindParentViewHolder(ListParentViewHolder listParentViewHolder, int i, Object o) {
         listParentViewHolder.bind(i, o);
-        if(i == numOfItems - 1){
-            callback.hideFAB(false);
-        } else callback.hideFAB(true);
     }
 
     @Override
     public void onBindChildViewHolder(ListChildViewHolder listChildViewHolder, int i, Object o) {
         listChildViewHolder.bind(i, o);
+    }
+
+    public void swapData(List<ParentObject> items) {
+        super.mParentItemList = items;
+        notifyDataSetChanged();
     }
 
     class ListParentViewHolder extends ParentViewHolder {
@@ -96,7 +85,6 @@ public class ListAdapter extends
                     priority.setBackgroundResource(R.drawable.round_view_green); break;
             }
         }
-
     }
 
     class ListChildViewHolder extends ChildViewHolder {
@@ -105,7 +93,7 @@ public class ListAdapter extends
 
         public ListChildViewHolder(View itemView) {
             super(itemView);
-            listDefinition = itemView.findViewById(R.id.tv_child_list_item);
+            listDefinition = itemView.findViewById(R.id.tv_child_list_item_definition);
         }
 
         public void bind(int i, Object o) {

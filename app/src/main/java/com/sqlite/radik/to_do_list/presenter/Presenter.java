@@ -1,9 +1,12 @@
-package com.sqlite.radik.to_do_list;
+package com.sqlite.radik.to_do_list.presenter;
 
 import android.content.Intent;
 
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
+import com.sqlite.radik.to_do_list.MainActivity;
+import com.sqlite.radik.to_do_list.TaskActivity;
 import com.sqlite.radik.to_do_list.data.ItemParent;
+import com.sqlite.radik.to_do_list.model.Model;
 
 /**
  * Created by Radik on 30.03.2018.
@@ -11,34 +14,47 @@ import com.sqlite.radik.to_do_list.data.ItemParent;
 
 public class Presenter {
 
-    private IView view;
+    private MainActivity mainView;
+    private TaskActivity taskView;
     private Model model;
 
     public Presenter(Model model) {
         this.model = model;
     }
 
-    public void attachView(IView view){
-        this.view = view;
+    public void attachMainView(MainActivity view){
+        this.mainView = view;
     }
 
-    public void detachView() {
-        view = null;
+    public void attachTaskView(TaskActivity taskView) {
+        this.taskView = taskView;
+    }
+
+    public void detachMainView() {
+        mainView = null;
+    }
+
+    public void detachTaskView() {
+        taskView = null;
     }
 
     public void startTaskActivity() {
-        Intent intent = new Intent((MainActivity)view, TaskActivity.class);
-        ((MainActivity) view).startActivity(intent);
+        Intent intent = new Intent(mainView, TaskActivity.class);
+        mainView.startActivity(intent);
     }
 
     public void addTask() {
-        ParentObject parentObject = view.getItemData();
+        ParentObject parentObject = taskView.getItemData();
         if(parentObject != null) {
             model.addItem((ItemParent) parentObject);
         }
+        taskView.close();
+        viewIsReady();
     }
 
     public void viewIsReady() {
-        view.showItems(model.getAllItems());
+        mainView.showItems(model.getAllItems());
     }
+
+
 }

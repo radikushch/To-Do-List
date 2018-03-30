@@ -1,10 +1,14 @@
-package com.sqlite.radik.to_do_list;
+package com.sqlite.radik.to_do_list.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
+import com.sqlite.radik.to_do_list.data.ItemChild;
+import com.sqlite.radik.to_do_list.data.ItemParent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +17,13 @@ import java.util.List;
  * Created by Radik on 30.03.2018.
  */
 
-public class DBHelper extends SQLiteOpenHelper implements IDBHelper {
+public class DBHelper extends SQLiteOpenHelper {
 
-    private static final int VERSION = 1;
-    private static final String DATABASE_NAME = "asksManager";
+    private static final int VERSION = 3;
+    private static final String DATABASE_NAME = "tasksManager.db";
     private static final String TABLE_NAME = "Tasks";
 
-    private static final String KEY_ID = "id";
+    private static final String KEY_ID = "_id";
     private static final String KEY_CAPTION = "caption";
     private static final String KEY_DEFINITION = "definition";
     private static final String KEY_PRIORITY = "priority";
@@ -27,16 +31,16 @@ public class DBHelper extends SQLiteOpenHelper implements IDBHelper {
 
 
     public DBHelper(Context context) {
-        super(context, TABLE_NAME, null, VERSION);
+        super(context, DATABASE_NAME, null, VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("create table " + TABLE_NAME + " ("
-                + KEY_ID + " integer primary key autoincrement,"
-                + KEY_CAPTION + " text,"
-                + KEY_DEFINITION + " text,"
-                + KEY_PRIORITY + " integer"
+                + KEY_ID + " integer primary key,"
+                + KEY_CAPTION + " text not null,"
+                + KEY_DEFINITION + " text not null,"
+                + KEY_PRIORITY + " integer not null"
                 + ");");
     }
 
@@ -46,8 +50,7 @@ public class DBHelper extends SQLiteOpenHelper implements IDBHelper {
         onCreate(sqLiteDatabase);
     }
 
-    @Override
-    public void addItem(ItemParent itemParent) {
+    public void insert(ItemParent itemParent) {
         ItemChild itemChild = (ItemChild) itemParent.getChildObjectList().get(0);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -58,8 +61,7 @@ public class DBHelper extends SQLiteOpenHelper implements IDBHelper {
         db.close();
     }
 
-    @Override
-    public ItemParent getItem(int id) {
+    public ItemParent query(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME,
                 new String[] {KEY_ID, KEY_CAPTION, KEY_DEFINITION, KEY_PRIORITY},
@@ -70,45 +72,45 @@ public class DBHelper extends SQLiteOpenHelper implements IDBHelper {
                 null,
                 null);
         if(cursor != null) cursor.moveToFirst();
-        ItemChild itemChild = new ItemChild(cursor.getString(1));
+        ItemChild itemChild = new ItemChild(cursor.getString(2));
         ArrayList<Object> mChildren = new ArrayList<>();
         mChildren.add(itemChild);
-        ItemParent itemParent = new ItemParent(cursor.getString(0), Integer.parseInt(cursor.getString(2)),mChildren);
+        ItemParent itemParent = new ItemParent(cursor.getString(1), Integer.parseInt(cursor.getString(3)),mChildren);
+        itemParent.set_id(Integer.parseInt(cursor.getString(0)));
         return itemParent;
     }
 
-    @Override
-    public List<ItemParent> getAllItems() {
-        List<ItemParent> itemsList= new ArrayList<>();
+    public List<ParentObject> rawQuery() {
+        List<ParentObject> itemsList= new ArrayList<>();
         String selectQuery = "select * from " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if(cursor.moveToFirst()){
             do{
                 ItemParent itemParent = new ItemParent();
-                itemParent.setCaption(cursor.getString(0));
-                itemParent.setPriority(Integer.parseInt(cursor.getString(2)));
+                itemParent.set_id(Integer.parseInt(cursor.getString(0)));
+                itemParent.setCaption(cursor.getString(1));
                 List<Object> list = new ArrayList<>();
-                ItemChild itemChild = new ItemChild(cursor.getString(1));
+                ItemChild itemChild = new ItemChild(cursor.getString(2));
                 list.add(itemChild);
                 itemParent.setChildObjectList(list);
+                itemParent.setPriority(cursor.getInt(3));
                 itemsList.add(itemParent);
             }while (cursor.moveToNext());
         }
         return itemsList;
     }
 
-    @Override
-    public int getItemsCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_NAME;
+    public int count() {
+        String countQuery = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
         cursor.close();
-        return cursor.getCount();
+        return count;
     }
 
-    @Override
-    public int updateItem(ItemParent itemParent) {
+    public int update(ItemParent itemParent) {
         ItemChild itemChild = (ItemChild) itemParent.getChildObjectList().get(0);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -120,14 +122,12 @@ public class DBHelper extends SQLiteOpenHelper implements IDBHelper {
                 new String[] {String.valueOf(itemParent.get_id())});
     }
 
-    @Override
-    public void deleteItem(ItemParent itemParent) {
+    public void delete(ItemParent itemParent) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, KEY_ID + " = ?", new String[] { String.valueOf(itemParent.get_id()) });
+        db.delete(TABLE_NAME, KEY_ID + "=?", new String[] { String.valueOf(itemParent.get_id()) });
         db.close();
     }
 
-    @Override
     public void deleteAll() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, null, null);

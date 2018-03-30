@@ -1,9 +1,8 @@
-package com.sqlite.radik.to_do_list;
+package com.sqlite.radik.to_do_list.model;
 
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
 import com.sqlite.radik.to_do_list.data.ItemParent;
 import com.sqlite.radik.to_do_list.database.DBHelper;
-import com.sqlite.radik.to_do_list.database.IDBHelper;
 
 import java.util.List;
 
@@ -11,7 +10,7 @@ import java.util.List;
  * Created by Radik on 30.03.2018.
  */
 
-public class Model implements IDBHelper{
+public class Model {
 
     private DBHelper dbHelper;
 
@@ -19,37 +18,30 @@ public class Model implements IDBHelper{
         this.dbHelper = dbHelper;
     }
 
-    @Override
     public void addItem(ItemParent itemParent) {
-        dbHelper.addItem(itemParent);
+        dbHelper.insert(itemParent);
     }
 
-    @Override
     public ItemParent getItem(int id) {
-       return dbHelper.getItem(id);
+       return dbHelper.query(id);
     }
 
-    @Override
     public List<ParentObject> getAllItems() {
-        return dbHelper.getAllItems();
+        return dbHelper.rawQuery();
     }
 
-    @Override
     public int getItemsCount() {
-        return dbHelper.getItemsCount();
+        return dbHelper.count();
     }
 
-    @Override
     public int updateItem(ItemParent itemParent) {
-        return dbHelper.updateItem(itemParent);
+        return dbHelper.update(itemParent);
     }
 
-    @Override
     public void deleteItem(ItemParent itemParent) {
-        dbHelper.deleteItem(itemParent);
+        dbHelper.delete(itemParent);
     }
 
-    @Override
     public void deleteAll() {
         dbHelper.deleteAll();
     }
