@@ -22,11 +22,12 @@ import java.util.List;
 
 public class ListAdapter extends
         ExpandableRecyclerAdapter<ListAdapter.ListParentViewHolder, ListAdapter.ListChildViewHolder> {
-    int numOfItems;
+
+    private List<ParentObject> parentObjects;
 
     public ListAdapter(Context context, List<ParentObject> parentItemList, int numOfItems) {
         super(context, parentItemList);
-        this.numOfItems = numOfItems;
+        parentObjects = parentItemList;
     }
 
     @Override
@@ -53,9 +54,8 @@ public class ListAdapter extends
         listChildViewHolder.bind(i, o);
     }
 
-    public void swapData(List<ParentObject> items) {
-        super.mParentItemList = items;
-        notifyDataSetChanged();
+    public List<ParentObject> getParentObjects() {
+        return parentObjects;
     }
 
     class ListParentViewHolder extends ParentViewHolder {
@@ -63,6 +63,7 @@ public class ListAdapter extends
         public TextView listCaption;
         public ImageView arrowDirection;
         public View priority;
+
 
         public ListParentViewHolder(View itemView) {
             super(itemView);

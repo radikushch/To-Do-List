@@ -55,10 +55,9 @@ public class TaskActivity extends AppCompatActivity {
             }
         });
         DBHelper dbHelper = new DBHelper(this);
-        model = new Model(dbHelper);
+        Model model = new Model(dbHelper);
         presenter = new Presenter(model);
         presenter.attachTaskView(this);
-
     }
 
     @Override
@@ -92,7 +91,7 @@ public class TaskActivity extends AppCompatActivity {
         return itemParent;
     }
 
-    public void close() {
+    public void close(){
         finish();
     }
 }

@@ -36,6 +36,4 @@
         app:srcCompat="@android:drawable/arrow_down_float"
         android:layout_marginRight="8dp" />
 
-
-
 </android.support.constraint.ConstraintLayout>

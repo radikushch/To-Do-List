@@ -49,12 +49,14 @@ public class Presenter {
             model.addItem((ItemParent) parentObject);
         }
         taskView.close();
-        viewIsReady();
     }
 
     public void viewIsReady() {
         mainView.showItems(model.getAllItems());
     }
 
-
+    public void deleteItem(ItemParent itemParent) {
+        model.deleteItem(itemParent);
+        viewIsReady();
+    }
 }

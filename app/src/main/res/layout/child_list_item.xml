@@ -10,11 +10,10 @@
 
     <TextView
         android:id="@+id/tv_child_list_item_definition"
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Definition"
         android:fontFamily="casual"/>
 </android.support.constraint.ConstraintLayout>
