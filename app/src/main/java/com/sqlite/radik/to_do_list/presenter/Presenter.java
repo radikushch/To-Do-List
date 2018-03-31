@@ -55,8 +55,28 @@ public class Presenter {
         mainView.showItems(model.getAllItems());
     }
 
+    public void loadItems() {
+        mainView.showItems(model.getAllItems());
+        setUnSorted();
+    }
+
+    public void loadSortedItems() {
+        mainView.showItems(model.getSortedItems());
+        setSorted();
+    }
+
     public void deleteItem(ItemParent itemParent) {
         model.deleteItem(itemParent);
-        viewIsReady();
+        loadItems();
     }
+
+    public void setSorted() {
+        mainView.showSorted();
+    }
+
+    public void setUnSorted() {
+        mainView.showUnSorted();
+    }
+
+
 }

@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".com.sqlite.radik.to_do_list.MainActivity">
     <item
-        android:id="@+id/sort_menu"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:id="@+id/sort_item"
         android:orderInCategory="100"
         android:title="sort"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_sort_white_24px"/>
 </menu>

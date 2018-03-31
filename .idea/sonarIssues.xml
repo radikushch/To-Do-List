@@ -218,6 +218,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/menu/menu_sort.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/menu/sort_menu_item.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/values/colors.xml">
           <value>
             <set />
@@ -229,6 +239,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/xml/view_style.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../test/app/src/main/res/menu/menu_main.xml">
           <value>
             <set />
           </value>

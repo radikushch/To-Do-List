@@ -45,4 +45,8 @@ public class Model {
     public void deleteAll() {
         dbHelper.deleteAll();
     }
+
+    public List<ParentObject> getSortedItems() {
+        return dbHelper.sortQuery();
+    }
 }

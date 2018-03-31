@@ -3,17 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingLeft="32dp"
-    android:paddingRight="32dp"
-    android:paddingTop="8dp"
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/tv_child_list_item_definition"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="32dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Definition"
-        android:fontFamily="casual"/>
+        android:fontFamily="casual"
+        android:layout_marginStart="32dp" />
+
 </android.support.constraint.ConstraintLayout>

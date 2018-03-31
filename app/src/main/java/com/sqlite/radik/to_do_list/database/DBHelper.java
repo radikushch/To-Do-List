@@ -133,4 +133,31 @@ public class DBHelper extends SQLiteOpenHelper {
         db.delete(TABLE_NAME, null, null);
         db.close();
     }
+
+    public List<ParentObject> sortQuery() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                KEY_PRIORITY,
+                null);
+        List<ParentObject> itemsList= new ArrayList<>();
+        if(cursor.moveToFirst()){
+            do{
+                ItemParent itemParent = new ItemParent();
+                itemParent.set_id(Integer.parseInt(cursor.getString(0)));
+                itemParent.setCaption(cursor.getString(1));
+                List<Object> list = new ArrayList<>();
+                ItemChild itemChild = new ItemChild(cursor.getString(2));
+                list.add(itemChild);
+                itemParent.setChildObjectList(list);
+                itemParent.setPriority(cursor.getInt(3));
+                itemsList.add(itemParent);
+            }while (cursor.moveToNext());
+        }
+        return itemsList;
+    }
 }

@@ -1,13 +1,16 @@
 package com.sqlite.radik.to_do_list;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    private static int isSorted = -1;
 
     private ListAdapter listAdapter;
 
@@ -39,12 +43,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         init();
     }
 
     private void init() {
-        ButterKnife.bind(this);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) fab.hide();
-                else fab.show();
+                else        fab.show();
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
@@ -99,13 +103,45 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.viewIsReady();
+        if(isSorted == -1) presenter.viewIsReady();
+        if(isSorted == 0)  presenter.loadItems();
+        if(isSorted == 1)  presenter.loadSortedItems();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         presenter.detachMainView();
-        Log.d(">>>", "OnDestroy");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_sort, menu);
+        return true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.sort_item) {
+            if(isSorted == 1){
+                presenter.loadItems();
+            } else if(isSorted == 0 || isSorted == -1) {
+                presenter.loadSortedItems();
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void showSorted() {
+        isSorted = 1;
+        toolbar.getMenu().findItem(R.id.sort_item).setIcon(R.drawable.ic_format_align_left_white_24px);
+    }
+
+    public void showUnSorted() {
+        isSorted = 0;
+        toolbar.getMenu().findItem(R.id.sort_item).setIcon(R.drawable.ic_sort_white_24px);
     }
 }
