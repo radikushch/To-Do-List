@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
-import com.sqlite.radik.to_do_list.data.ItemParent;
+import com.sqlite.radik.to_do_list.data.TaskCaption;
 import com.sqlite.radik.to_do_list.database.DBHelper;
 import com.sqlite.radik.to_do_list.model.Model;
 import com.sqlite.radik.to_do_list.presenter.Presenter;
@@ -81,9 +81,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                ItemParent itemParent = (ItemParent) listAdapter.getParentObjects()
+                TaskCaption taskCaption = (TaskCaption) listAdapter.getParentObjects()
                         .get(viewHolder.getAdapterPosition());
-                presenter.deleteItem(itemParent);
+                presenter.deleteItem(taskCaption);
             }
         }).attachToRecyclerView(recyclerViewList);
     }

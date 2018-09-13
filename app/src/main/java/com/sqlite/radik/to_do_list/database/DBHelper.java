@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
-import com.sqlite.radik.to_do_list.data.ItemChild;
-import com.sqlite.radik.to_do_list.data.ItemParent;
+import com.sqlite.radik.to_do_list.data.TaskDescription;
+import com.sqlite.radik.to_do_list.data.TaskCaption;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,18 +50,18 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void insert(ItemParent itemParent) {
-        ItemChild itemChild = (ItemChild) itemParent.getChildObjectList().get(0);
+    public void insert(TaskCaption taskCaption) {
+        TaskDescription taskDescription = (TaskDescription) taskCaption.getChildObjectList().get(0);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(KEY_CAPTION, itemParent.getCaption());
-        cv.put(KEY_DEFINITION, itemChild.getmDefinition());
-        cv.put(KEY_PRIORITY, itemParent.getPriority());
+        cv.put(KEY_CAPTION, taskCaption.getCaption());
+        cv.put(KEY_DEFINITION, taskDescription.getmDefinition());
+        cv.put(KEY_PRIORITY, taskCaption.getPriority());
         db.insert(TABLE_NAME, null, cv);
         db.close();
     }
 
-    public ItemParent query(int id) {
+    public TaskCaption query(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME,
                 new String[] {KEY_ID, KEY_CAPTION, KEY_DEFINITION, KEY_PRIORITY},
@@ -72,12 +72,12 @@ public class DBHelper extends SQLiteOpenHelper {
                 null,
                 null);
         if(cursor != null) cursor.moveToFirst();
-        ItemChild itemChild = new ItemChild(cursor.getString(2));
+        TaskDescription taskDescription = new TaskDescription(cursor.getString(2));
         ArrayList<Object> mChildren = new ArrayList<>();
-        mChildren.add(itemChild);
-        ItemParent itemParent = new ItemParent(cursor.getString(1), Integer.parseInt(cursor.getString(3)),mChildren);
-        itemParent.set_id(Integer.parseInt(cursor.getString(0)));
-        return itemParent;
+        mChildren.add(taskDescription);
+        TaskCaption taskCaption = new TaskCaption(cursor.getString(1), Integer.parseInt(cursor.getString(3)),mChildren);
+        taskCaption.set_id(Integer.parseInt(cursor.getString(0)));
+        return taskCaption;
     }
 
     public List<ParentObject> rawQuery() {
@@ -87,15 +87,15 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         if(cursor.moveToFirst()){
             do{
-                ItemParent itemParent = new ItemParent();
-                itemParent.set_id(Integer.parseInt(cursor.getString(0)));
-                itemParent.setCaption(cursor.getString(1));
+                TaskCaption taskCaption = new TaskCaption();
+                taskCaption.set_id(Integer.parseInt(cursor.getString(0)));
+                taskCaption.setCaption(cursor.getString(1));
                 List<Object> list = new ArrayList<>();
-                ItemChild itemChild = new ItemChild(cursor.getString(2));
-                list.add(itemChild);
-                itemParent.setChildObjectList(list);
-                itemParent.setPriority(cursor.getInt(3));
-                itemsList.add(itemParent);
+                TaskDescription taskDescription = new TaskDescription(cursor.getString(2));
+                list.add(taskDescription);
+                taskCaption.setChildObjectList(list);
+                taskCaption.setPriority(cursor.getInt(3));
+                itemsList.add(taskCaption);
             }while (cursor.moveToNext());
         }
         return itemsList;
@@ -110,21 +110,21 @@ public class DBHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    public int update(ItemParent itemParent) {
-        ItemChild itemChild = (ItemChild) itemParent.getChildObjectList().get(0);
+    public int update(TaskCaption taskCaption) {
+        TaskDescription taskDescription = (TaskDescription) taskCaption.getChildObjectList().get(0);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(KEY_CAPTION, itemParent.getCaption());
-        cv.put(KEY_DEFINITION, itemChild.getmDefinition());
-        cv.put(KEY_PRIORITY, itemParent.getPriority());
+        cv.put(KEY_CAPTION, taskCaption.getCaption());
+        cv.put(KEY_DEFINITION, taskDescription.getmDefinition());
+        cv.put(KEY_PRIORITY, taskCaption.getPriority());
         return db.update(TABLE_NAME, cv,
                 KEY_ID + "=?",
-                new String[] {String.valueOf(itemParent.get_id())});
+                new String[] {String.valueOf(taskCaption.get_id())});
     }
 
-    public void delete(ItemParent itemParent) {
+    public void delete(TaskCaption taskCaption) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, KEY_ID + "=?", new String[] { String.valueOf(itemParent.get_id()) });
+        db.delete(TABLE_NAME, KEY_ID + "=?", new String[] { String.valueOf(taskCaption.get_id()) });
         db.close();
     }
 
@@ -147,15 +147,15 @@ public class DBHelper extends SQLiteOpenHelper {
         List<ParentObject> itemsList= new ArrayList<>();
         if(cursor.moveToFirst()){
             do{
-                ItemParent itemParent = new ItemParent();
-                itemParent.set_id(Integer.parseInt(cursor.getString(0)));
-                itemParent.setCaption(cursor.getString(1));
+                TaskCaption taskCaption = new TaskCaption();
+                taskCaption.set_id(Integer.parseInt(cursor.getString(0)));
+                taskCaption.setCaption(cursor.getString(1));
                 List<Object> list = new ArrayList<>();
-                ItemChild itemChild = new ItemChild(cursor.getString(2));
-                list.add(itemChild);
-                itemParent.setChildObjectList(list);
-                itemParent.setPriority(cursor.getInt(3));
-                itemsList.add(itemParent);
+                TaskDescription taskDescription = new TaskDescription(cursor.getString(2));
+                list.add(taskDescription);
+                taskCaption.setChildObjectList(list);
+                taskCaption.setPriority(cursor.getInt(3));
+                itemsList.add(taskCaption);
             }while (cursor.moveToNext());
         }
         return itemsList;

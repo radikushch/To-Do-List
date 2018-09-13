@@ -1,7 +1,7 @@
 package com.sqlite.radik.to_do_list.model;
 
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
-import com.sqlite.radik.to_do_list.data.ItemParent;
+import com.sqlite.radik.to_do_list.data.TaskCaption;
 import com.sqlite.radik.to_do_list.database.DBHelper;
 
 import java.util.List;
@@ -18,11 +18,11 @@ public class Model {
         this.dbHelper = dbHelper;
     }
 
-    public void addItem(ItemParent itemParent) {
-        dbHelper.insert(itemParent);
+    public void addItem(TaskCaption taskCaption) {
+        dbHelper.insert(taskCaption);
     }
 
-    public ItemParent getItem(int id) {
+    public TaskCaption getItem(int id) {
        return dbHelper.query(id);
     }
 
@@ -34,12 +34,12 @@ public class Model {
         return dbHelper.count();
     }
 
-    public int updateItem(ItemParent itemParent) {
-        return dbHelper.update(itemParent);
+    public int updateItem(TaskCaption taskCaption) {
+        return dbHelper.update(taskCaption);
     }
 
-    public void deleteItem(ItemParent itemParent) {
-        dbHelper.delete(itemParent);
+    public void deleteItem(TaskCaption taskCaption) {
+        dbHelper.delete(taskCaption);
     }
 
     public void deleteAll() {

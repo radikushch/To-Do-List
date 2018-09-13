@@ -11,8 +11,8 @@ import com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ChildViewHolder;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ParentViewHolder;
-import com.sqlite.radik.to_do_list.data.ItemChild;
-import com.sqlite.radik.to_do_list.data.ItemParent;
+import com.sqlite.radik.to_do_list.data.TaskDescription;
+import com.sqlite.radik.to_do_list.data.TaskCaption;
 
 import java.util.List;
 
@@ -73,7 +73,7 @@ public class ListAdapter extends
         }
 
         public void bind(int i, Object item) {
-            ItemParent parentItem = (ItemParent) item;
+            TaskCaption parentItem = (TaskCaption) item;
             listCaption.setText(parentItem.getCaption());
             switch(parentItem.getPriority()){
                 case 1:
@@ -98,8 +98,8 @@ public class ListAdapter extends
         }
 
         public void bind(int i, Object o) {
-            ItemChild itemChild = (ItemChild) o;
-            listDefinition.setText(itemChild.getmDefinition());
+            TaskDescription taskDescription = (TaskDescription) o;
+            listDefinition.setText(taskDescription.getmDefinition());
         }
     }
 }

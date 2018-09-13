@@ -5,7 +5,7 @@ import android.content.Intent;
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
 import com.sqlite.radik.to_do_list.MainActivity;
 import com.sqlite.radik.to_do_list.TaskActivity;
-import com.sqlite.radik.to_do_list.data.ItemParent;
+import com.sqlite.radik.to_do_list.data.TaskCaption;
 import com.sqlite.radik.to_do_list.model.Model;
 
 /**
@@ -46,7 +46,7 @@ public class Presenter {
     public void addTask() {
         ParentObject parentObject = taskView.getItemData();
         if(parentObject != null) {
-            model.addItem((ItemParent) parentObject);
+            model.addItem((TaskCaption) parentObject);
         }
         taskView.close();
     }
@@ -65,8 +65,8 @@ public class Presenter {
         setSorted();
     }
 
-    public void deleteItem(ItemParent itemParent) {
-        model.deleteItem(itemParent);
+    public void deleteItem(TaskCaption taskCaption) {
+        model.deleteItem(taskCaption);
         loadItems();
     }
 

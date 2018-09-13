@@ -3,21 +3,19 @@ package com.sqlite.radik.to_do_list;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
-import com.sqlite.radik.to_do_list.data.ItemChild;
-import com.sqlite.radik.to_do_list.data.ItemParent;
+import com.sqlite.radik.to_do_list.data.TaskDescription;
+import com.sqlite.radik.to_do_list.data.TaskCaption;
 import com.sqlite.radik.to_do_list.database.DBHelper;
 import com.sqlite.radik.to_do_list.model.Model;
 import com.sqlite.radik.to_do_list.presenter.Presenter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,28 +65,28 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     public ParentObject getItemData() {
-        ItemParent itemParent = new ItemParent();
-        ItemChild itemChild = new ItemChild();
-        itemParent.setCaption(mCaptionEditText.getText().toString());
+        TaskCaption taskCaption = new TaskCaption();
+        TaskDescription taskDescription = new TaskDescription();
+        taskCaption.setCaption(mCaptionEditText.getText().toString());
         switch(mPriorityRadioGroup.getCheckedRadioButtonId()){
             case R.id.rb_priority_high:
-                itemParent.setPriority(1);
+                taskCaption.setPriority(1);
                 break;
             case R.id.rb_priority_medium:
-                itemParent.setPriority(2);
+                taskCaption.setPriority(2);
                 break;
             case R.id.rb_priority_low:
-                itemParent.setPriority(3);
+                taskCaption.setPriority(3);
                 break;
             default:
-                itemParent.setPriority(3);
+                taskCaption.setPriority(3);
                 break;
         }
-        itemChild.setDefinition(mDefinittionEditText.getText().toString());
+        taskDescription.setDefinition(mDefinittionEditText.getText().toString());
         ArrayList<Object> list = new ArrayList<>();
-        list.add(itemChild);
-        itemParent.setChildObjectList(list);
-        return itemParent;
+        list.add(taskDescription);
+        taskCaption.setChildObjectList(list);
+        return taskCaption;
     }
 
     public void close(){
